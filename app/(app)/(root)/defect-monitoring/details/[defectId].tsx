@@ -20,7 +20,7 @@ export default function DefectMonitoringDetailsScreen() {
   if (isLoading) {
     return (
       <>
-        <Stack.Screen options={{ title: 'Defect Details' }} />
+        <Stack.Screen options={{ title: 'Defect Monitoring Details' }} />
         <LoadingScreen />
       </>
     )
@@ -29,7 +29,7 @@ export default function DefectMonitoringDetailsScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Defect Details' }} />
+      <Stack.Screen options={{ title: 'Defect Monitoring Details' }} />
       <ScrollView
         style={styles.container}
         refreshControl={
