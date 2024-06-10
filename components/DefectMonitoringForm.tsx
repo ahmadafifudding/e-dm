@@ -1,30 +1,67 @@
-import { Button } from '@/components/Button'
-import { ImagePlaceholder } from '@/components/ImagePlaceholder'
+import { DefectMonitoringImage } from '@/components/DefectMonitoringImage'
 import { Message } from '@/components/Message'
 import { Text } from '@/components/Text'
 import { TextArea } from '@/components/TextArea'
 import { Colors } from '@/constants/Colors'
 import { block, level, trade, zone } from '@/data'
-import { CreateDefectMonitoringSchema } from '@/validation'
+import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/providers/AuthProvider'
+import {
+  CreateDefectMonitoringSchema,
+  createDefectMonitoringSchema,
+} from '@/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Picker } from '@react-native-picker/picker'
-import { Stack } from 'expo-router'
+import { Stack, router } from 'expo-router'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { StyleSheet, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 
 export function DefectMonitoringForm() {
+  const { session } = useAuth()
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<CreateDefectMonitoringSchema>()
+  } = useForm<CreateDefectMonitoringSchema>({
+    defaultValues: {
+      block: '',
+      level: '',
+      zone: '',
+      trade: '',
+      image_url: '',
+      description: '',
+    },
+    resolver: zodResolver(createDefectMonitoringSchema),
+  })
+
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+
+  async function onSubmit(formData: CreateDefectMonitoringSchema) {
+    const { data, error } = await supabase.from('defect-monitoring').insert([
+      {
+        ...formData,
+        created_by: session?.user.id,
+      },
+    ])
+    if (error) {
+      Alert.alert(error.message)
+      return
+    }
+    router.back()
+  }
 
   return (
     <>
       <Stack.Screen
         options={{
           headerRight: () => (
-            <Text type='link' style={{ color: Colors.white }}>
-              Save
+            <Text
+              type='link'
+              onPress={handleSubmit(onSubmit)}
+              style={{ color: Colors.white }}
+            >
+              {isSubmitting ? 'Saving...' : 'Save'}
             </Text>
           ),
         }}
@@ -117,18 +154,22 @@ export function DefectMonitoringForm() {
           </View>
           <View>
             <Text type='label'>Image</Text>
-            <ImagePlaceholder />
             <Controller
-              name='image'
+              name='image_url'
               control={control}
-              render={({ field }) => (
-                <Button
-                  label='Pick an image'
-                  variant='secondary'
-                  style={{ marginTop: 10 }}
+              render={({ field: { onChange } }) => (
+                <DefectMonitoringImage
+                  url={avatarUrl}
+                  onUpload={(path: string) => {
+                    onChange(path)
+                    setAvatarUrl(path)
+                  }}
                 />
               )}
             />
+            {errors.image_url && (
+              <Message type='error'>{errors.image_url.message}</Message>
+            )}
           </View>
           <View>
             <Text type='label'>Description</Text>

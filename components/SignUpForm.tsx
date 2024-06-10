@@ -15,10 +15,10 @@ export function SignUpForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignUpSchema>({
     defaultValues: {
-      name: 'Fatin Aemeelia',
-      email: 'fatinameelia98@gmail.com',
-      password: 'Ameelia1234!',
-      passwordConfirmation: 'Ameelia1234!',
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
     },
     resolver: zodResolver(signUpSchema),
   })

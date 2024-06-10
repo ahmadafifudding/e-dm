@@ -43,7 +43,9 @@ export function Button({
         ]}
       >
         {isLoading ? (
-          <ActivityIndicator color={Colors.white} />
+          <ActivityIndicator
+            color={variant === 'primary' ? Colors.white : Colors.primary}
+          />
         ) : (
           <Text
             style={[

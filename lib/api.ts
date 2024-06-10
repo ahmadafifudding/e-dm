@@ -8,6 +8,7 @@ export async function fetchDefectMonitoring(
     .from('defect-monitoring')
     .select('*')
     .eq('block', block)
+    .order('created_at', { ascending: false })
   return data
 }
 
@@ -19,5 +20,15 @@ export async function fetchDefectMonitoringDetails(
     .select('*')
     .eq('id', defectId)
     .single()
+  return data
+}
+
+export async function fetchDefectAssessment(): Promise<
+  Tables<'defect-assessment'>[] | null
+> {
+  const { data } = await supabase
+    .from('defect-assessment')
+    .select('*')
+    .order('created_at', { ascending: false })
   return data
 }

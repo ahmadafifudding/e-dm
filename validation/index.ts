@@ -57,7 +57,7 @@ export const createDefectMonitoringSchema = z.object({
   trade: z.string({
     required_error: 'Please select a trade.',
   }),
-  image: z.string({
+  image_url: z.string({
     required_error: 'Please select an image.',
   }),
   description: z.string({

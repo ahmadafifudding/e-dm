@@ -19,7 +19,9 @@ export function DefectMonitoringItem({
     <TouchableOpacity onPress={() => onPress(item)} activeOpacity={0.8}>
       <View style={styles.container}>
         <Image
-          source={{ uri: item.image_url }}
+          source={{
+            uri: `https://eajhcslsnmdyzequnghs.supabase.co/storage/v1/object/public/defect-monitoring-images/${item.image_url}`,
+          }}
           height={50}
           width={50}
           resizeMode='cover'

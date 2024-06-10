@@ -13,7 +13,9 @@ export function DefectMonitoringDetails({
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: item.image_url }}
+        source={{
+          uri: `https://eajhcslsnmdyzequnghs.supabase.co/storage/v1/object/public/defect-monitoring-images/${item.image_url}`,
+        }}
         height={192}
         style={styles.image}
       />

@@ -1,4 +1,4 @@
-export const block = ['A', 'B']
+export const block = ['Tower A', 'Tower B']
 export const level = ['1', '2', '3', '4', '5', '6']
 export const zone = ['1', '2', '3', '4', '5', '6']
 export const trade = [

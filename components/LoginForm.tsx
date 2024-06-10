@@ -16,8 +16,8 @@ export function LoginForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignInSchema>({
     defaultValues: {
-      email: 'fatinameelia98@gmail.com',
-      password: 'Fatin1234!',
+      email: '',
+      password: '',
     },
   })
 
